@@ -1,0 +1,6 @@
+@MomPosApi_HostAddress = http://localhost:5090
+
+GET {{MomPosApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
