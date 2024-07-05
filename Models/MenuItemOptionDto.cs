@@ -10,5 +10,6 @@ namespace MomPosApi.Models {
         public required string OptionCategory { get; set; }
         public decimal AdditionalPrice { get; set; }
         public int SortOrder { get; set; }
+        public int MenuItemId { get; set; }
     }
 }

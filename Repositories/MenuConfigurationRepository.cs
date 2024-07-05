@@ -44,6 +44,14 @@ namespace MomPosApi.Repositories {
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
+            return await _context.MenuConfigurations
+                .Include(mc => mc.Categories)
+                .ThenInclude(c => c.MenuItems)
+                .ThenInclude(mi => mi.MenuItemOptions)
+                .ToListAsync();
+        }
+
     }
 
 }

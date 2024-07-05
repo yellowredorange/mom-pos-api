@@ -56,6 +56,12 @@ namespace MomPosApi.Controllers {
 
             return NoContent();
         }
+        [HttpGet("allmenus")]
+        public async Task<ActionResult<IEnumerable<MenuConfiguration>>> GetMenus() {
+            var menuConfigurations = await _menuConfigurationService.GetAllMenusAsync();
+            return Ok(menuConfigurations);
+        }
+
     }
 
 }

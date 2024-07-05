@@ -6,5 +6,6 @@ public interface IMenuConfigurationService {
     Task<MenuConfigurationDto> AddAsync(MenuConfigurationDto dto);
     Task<MenuConfigurationDto> UpdateAsync(MenuConfigurationDto dto);
     Task<bool> DeleteAsync(int id);
+    Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync();
 }
 

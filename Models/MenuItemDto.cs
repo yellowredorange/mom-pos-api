@@ -10,6 +10,7 @@ namespace MomPosApi.Models {
         public required string Description { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
+        public int CategoryId { get; set; }
         public required string PhotoUrl { get; set; }
         public int SortOrder { get; set; }
     }

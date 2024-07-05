@@ -41,6 +41,10 @@ namespace MomPosApi.Services {
         public async Task<bool> DeleteAsync(int id) {
             return await _menuConfigurationRepository.DeleteAsync(id);
         }
+        public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
+            return await _menuConfigurationRepository.GetAllAsync();
+        }
+
     }
 
 }
