@@ -1,18 +1,16 @@
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MomPosApi.Models {
-    public class MenuItem {
-        [Key]
+    public class MenuItemDto {
         public int MenuItemId { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public required string PhotoUrl { get; set; }
-        public int CategoryId { get; set; }
-        public required Category Category { get; set; }
-        public MenuItemOption? MenuItemOption { get; set; }
         public int SortOrder { get; set; }
     }
 }

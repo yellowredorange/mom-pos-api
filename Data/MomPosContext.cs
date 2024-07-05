@@ -2,45 +2,40 @@ using Microsoft.EntityFrameworkCore;
 using MomPosApi.Models;
 
 namespace MomPosApi.Data {
-  public class MomPosContext : DbContext {
-    public MomPosContext(DbContextOptions<MomPosContext> options) : base(options) { }
+    public class MomPosContext : DbContext {
+        public MomPosContext(DbContextOptions<MomPosContext> options) : base(options) { }
 
-    public DbSet<MenuItem> MenuItems { get; set; }
-    public DbSet<MenuItemOption> MenuItemOptions { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<CategoryMenuItem> CategoryMenuItems { get; set; }
-    public DbSet<MenuConfiguration> MenuConfigurations { get; set; }
-    public DbSet<MenuConfigurationCategory> MenuConfigurationCategories { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<MenuConfiguration> MenuConfigurations { get; set; }
+        public DbSet<MenuItemOption> MenuItemOptions { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
-      modelBuilder.Entity<MenuItem>()
-          .HasMany(mi => mi.Options)
-          .WithOne(mio => mio.MenuItem)
-          .HasForeignKey(mio => mio.MenuItemId);
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Category>()
+                .HasOne(c => c.MenuConfiguration)
+                .WithMany(mc => mc.Categories)
+                .HasForeignKey(c => c.MenuConfigurationId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-      modelBuilder.Entity<MenuItem>()
-          .HasMany(mi => mi.CategoryMenuItems)
-          .WithOne(cmi => cmi.MenuItem)
-          .HasForeignKey(cmi => cmi.MenuItemId);
+            modelBuilder.Entity<MenuItem>()
+                .HasOne(mi => mi.Category)
+                .WithMany(c => c.MenuItems)
+                .HasForeignKey(mi => mi.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-      modelBuilder.Entity<Category>()
-          .HasMany(c => c.CategoryMenuItems)
-          .WithOne(cmi => cmi.Category)
-          .HasForeignKey(cmi => cmi.CategoryId);
+            modelBuilder.Entity<MenuItem>()
+                .HasOne(mi => mi.MenuItemOption)
+                .WithOne(mio => mio.MenuItem)
+                .HasForeignKey<MenuItemOption>(mio => mio.MenuItemId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-      modelBuilder.Entity<MenuConfiguration>()
-          .HasMany(mc => mc.MenuConfigurationCategories)
-          .WithOne(mcc => mcc.MenuConfiguration)
-          .HasForeignKey(mcc => mcc.MenuConfigurationId);
+            modelBuilder.Entity<MenuItem>()
+                .Property(mi => mi.Price)
+                .HasColumnType("decimal(18,2)");
 
-      modelBuilder.Entity<MenuConfigurationCategory>()
-          .HasOne(mcc => mcc.Category)
-          .WithMany(c => c.MenuConfigurationCategories)
-          .HasForeignKey(mcc => mcc.CategoryId);
-
-      modelBuilder.Entity<MenuItem>()
-          .Property(mi => mi.Price)
-          .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<MenuItemOption>()
+                .Property(mio => mio.AdditionalPrice)
+                .HasColumnType("decimal(18,2)");
+        }
     }
-  }
 }

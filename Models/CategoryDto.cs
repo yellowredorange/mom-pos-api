@@ -1,17 +1,15 @@
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MomPosApi.Models {
-    public class Category {
-        [Key]
+    public class CategoryDto {
         public int CategoryId { get; set; }
         public required string Name { get; set; }
         public int MenuConfigurationId { get; set; }
         public bool IsActive { get; set; }
-        public required MenuConfiguration MenuConfiguration { get; set; }
-        public ICollection<MenuItem> MenuItems { get; set; } = [];
+        public List<int> MenuItemIds { get; set; } = [];
         public int SortOrder { get; set; }
     }
-
-
 }

@@ -5,6 +5,9 @@ using Serilog.Events;
 using MomPosApi;
 using MomPosApi.Models;
 using MomPosApi.Repositories;
+using MomPosApi.Data;
+using MomPosApi.Services;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,9 +43,26 @@ builder.Services.AddCors(options => {
 builder.Services.AddDbContext<MomPosApi.Data.MomPosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
 
+
 // Add services to the container
+builder.Services.AddDbContext<MomPosContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
+
+// Add repositories
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+builder.Services.AddScoped<IMenuItemService, MenuItemService>();
+builder.Services.AddScoped<IMenuConfigurationRepository, MenuConfigurationRepository>();
+builder.Services.AddScoped<IMenuConfigurationService, MenuConfigurationService>();
+builder.Services.AddScoped<IMenuItemOptionRepository, MenuItemOptionRepository>();
+builder.Services.AddScoped<IMenuItemOptionService, MenuItemOptionService>();
+
+builder.Services.AddAutoMapper(typeof(MomPosApi.Profiles.AutoMapperProfiles)); // 明確指定配置類型
+
+// Add controllers
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IConnectionRepo, ConnectionRepo>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();

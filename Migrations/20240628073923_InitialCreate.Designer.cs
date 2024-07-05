@@ -5,18 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MomPosApi.Data;
+using MomPosApi.Models;
 
 #nullable disable
 
-namespace MomPosApi.Migrations
-{
+namespace MomPosApi.Migrations {
     [DbContext(typeof(MomPosContext))]
     [Migration("20240628073923_InitialCreate")]
-    partial class InitialCreate
-    {
+    partial class InitialCreate {
         /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
+        protected override void BuildTargetModel(ModelBuilder modelBuilder) {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.6")
@@ -24,229 +22,217 @@ namespace MomPosApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MomPosApi.Models.Category", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("MomPosApi.Models.Category", b => {
+                b.Property<int>("CategoryId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                b.Property<int>("SortOrder")
+                    .HasColumnType("int");
 
-                    b.HasKey("CategoryId");
+                b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
-                });
+                b.ToTable("Categories");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.CategoryMenuItem", b =>
-                {
-                    b.Property<int>("CategoryMenuItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("MomPosApi.Models.CategoryMenuItem", b => {
+                b.Property<int>("CategoryMenuItemId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryMenuItemId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryMenuItemId"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                b.Property<int>("CategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
+                b.Property<int>("MenuItemId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                b.Property<int>("SortOrder")
+                    .HasColumnType("int");
 
-                    b.HasKey("CategoryMenuItemId");
+                b.HasKey("CategoryMenuItemId");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("CategoryId");
 
-                    b.HasIndex("MenuItemId");
+                b.HasIndex("MenuItemId");
 
-                    b.ToTable("CategoryMenuItems");
-                });
+                b.ToTable("CategoryMenuItems");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuConfiguration", b =>
-                {
-                    b.Property<int>("MenuConfigurationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("MomPosApi.Models.MenuConfiguration", b => {
+                b.Property<int>("MenuConfigurationId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuConfigurationId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuConfigurationId"));
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsActive")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                b.Property<int>("SortOrder")
+                    .HasColumnType("int");
 
-                    b.HasKey("MenuConfigurationId");
+                b.HasKey("MenuConfigurationId");
 
-                    b.ToTable("MenuConfigurations");
-                });
+                b.ToTable("MenuConfigurations");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuConfigurationCategory", b =>
-                {
-                    b.Property<int>("MenuConfigurationCategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("MomPosApi.Models.MenuConfigurationCategory", b => {
+                b.Property<int>("MenuConfigurationCategoryId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuConfigurationCategoryId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuConfigurationCategoryId"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                b.Property<int>("CategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("MenuConfigurationId")
-                        .HasColumnType("int");
+                b.Property<int>("MenuConfigurationId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                b.Property<int>("SortOrder")
+                    .HasColumnType("int");
 
-                    b.HasKey("MenuConfigurationCategoryId");
+                b.HasKey("MenuConfigurationCategoryId");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("CategoryId");
 
-                    b.HasIndex("MenuConfigurationId");
+                b.HasIndex("MenuConfigurationId");
 
-                    b.ToTable("MenuConfigurationCategories");
-                });
+                b.ToTable("MenuConfigurationCategories");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuItem", b =>
-                {
-                    b.Property<int>("MenuItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("MomPosApi.Models.MenuItem", b => {
+                b.Property<int>("MenuItemId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuItemId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuItemId"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("PhotoUrl")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                b.Property<decimal>("Price")
+                    .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Status")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MenuItemId");
+                b.HasKey("MenuItemId");
 
-                    b.ToTable("MenuItems");
-                });
+                b.ToTable("MenuItems");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuItemOption", b =>
-                {
-                    b.Property<int>("MenuItemOptionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity("MomPosApi.Models.MenuItemOption", b => {
+                b.Property<int>("MenuItemOptionId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuItemOptionId"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuItemOptionId"));
 
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
+                b.Property<int>("MenuItemId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Option")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Option")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OptionCategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("OptionCategory")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                b.Property<int>("SortOrder")
+                    .HasColumnType("int");
 
-                    b.HasKey("MenuItemOptionId");
+                b.HasKey("MenuItemOptionId");
 
-                    b.HasIndex("MenuItemId");
+                b.HasIndex("MenuItemId");
 
-                    b.ToTable("MenuItemOptions");
-                });
+                b.ToTable("MenuItemOptions");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.CategoryMenuItem", b =>
-                {
-                    b.HasOne("MomPosApi.Models.Category", "Category")
-                        .WithMany("CategoryMenuItems")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("MomPosApi.Models.CategoryMenuItem", b => {
+                b.HasOne("MomPosApi.Models.Category", "Category")
+                    .WithMany("CategoryMenuItems")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("MomPosApi.Models.MenuItem", "MenuItem")
-                        .WithMany("CategoryMenuItems")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("MomPosApi.Models.MenuItem", "MenuItem")
+                    .WithMany("CategoryMenuItems")
+                    .HasForeignKey("MenuItemId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Category");
+                b.Navigation("Category");
 
-                    b.Navigation("MenuItem");
-                });
+                b.Navigation("MenuItem");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuConfigurationCategory", b =>
-                {
-                    b.HasOne("MomPosApi.Models.Category", "Category")
-                        .WithMany("MenuConfigurationCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("MomPosApi.Models.MenuConfigurationCategory", b => {
+                b.HasOne("MomPosApi.Models.Category", "Category")
+                    .WithMany("MenuConfigurationCategories")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("MomPosApi.Models.MenuConfiguration", "MenuConfiguration")
-                        .WithMany("MenuConfigurationCategories")
-                        .HasForeignKey("MenuConfigurationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("MomPosApi.Models.MenuConfiguration", "MenuConfiguration")
+                    .WithMany("MenuConfigurationCategories")
+                    .HasForeignKey("MenuConfigurationId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Category");
+                b.Navigation("Category");
 
-                    b.Navigation("MenuConfiguration");
-                });
+                b.Navigation("MenuConfiguration");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuItemOption", b =>
-                {
-                    b.HasOne("MomPosApi.Models.MenuItem", "MenuItem")
-                        .WithMany("Options")
-                        .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("MomPosApi.Models.MenuItemOption", b => {
+                b.HasOne("MomPosApi.Models.MenuItem", "MenuItem")
+                    .WithMany("Options")
+                    .HasForeignKey("MenuItemId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("MenuItem");
-                });
+                b.Navigation("MenuItem");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.Category", b =>
-                {
-                    b.Navigation("CategoryMenuItems");
+            modelBuilder.Entity("MomPosApi.Models.Category", b => {
+                b.Navigation("CategoryMenuItems");
 
-                    b.Navigation("MenuConfigurationCategories");
-                });
+                b.Navigation("MenuConfigurationCategories");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuConfiguration", b =>
-                {
-                    b.Navigation("MenuConfigurationCategories");
-                });
+            modelBuilder.Entity("MomPosApi.Models.MenuConfiguration", b => {
+                b.Navigation("MenuConfigurationCategories");
+            });
 
-            modelBuilder.Entity("MomPosApi.Models.MenuItem", b =>
-                {
-                    b.Navigation("CategoryMenuItems");
+            modelBuilder.Entity("MomPosApi.Models.MenuItem", b => {
+                b.Navigation("CategoryMenuItems");
 
-                    b.Navigation("Options");
-                });
+                b.Navigation("Options");
+            });
 #pragma warning restore 612, 618
         }
     }
