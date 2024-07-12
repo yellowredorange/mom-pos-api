@@ -1,68 +1,75 @@
-using MomPosApi.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
+using MomPosApi.Models;
+
 public class OrderService : IOrderService {
   private readonly IOrderRepository _orderRepository;
   private readonly IMenuItemRepository _menuItemRepository;
   private readonly IMapper _mapper;
-  private readonly ILogger<OrderService> _logger;
 
-  public OrderService(
-      IOrderRepository orderRepository,
-      IMenuItemRepository menuItemRepository,
-      IMapper mapper,
-      ILogger<OrderService> logger) {
+  public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository, IMapper mapper) {
     _orderRepository = orderRepository;
     _menuItemRepository = menuItemRepository;
     _mapper = mapper;
-    _logger = logger;
   }
-  public async Task<List<OrderResponseDto>> GetAllOrdersAsync() {
-    var orders = await _orderRepository.GetAllAsync();
-    return _mapper.Map<List<OrderResponseDto>>(orders);
+
+  public async Task<OrderResponseDto> CreateOrderAsync(CreateOrderRequestDto request) {
+    var order = new Order {
+      OrderDate = DateTime.UtcNow,
+      OrderItems = new List<OrderItem>()
+    };
+
+    decimal totalAmount = 0;
+
+    foreach (var itemDto in request.Items) {
+      var menuItem = await _menuItemRepository.GetByIdAsync(itemDto.MenuItemId);
+      if (menuItem == null) {
+        throw new ArgumentException($"Menu item with id {itemDto.MenuItemId} not found");
+      }
+
+      var orderItem = new OrderItem {
+        MenuItemId = itemDto.MenuItemId,
+        MenuItem = menuItem,
+        Quantity = itemDto.Quantity,
+        UnitPrice = menuItem.Price,
+        Options = string.Join(",", itemDto.Options.Select(o => $"{o.OptionCategory}:{o.OptionName}"))
+      };
+
+      // 計算選項的額外價格
+      foreach (var optionDto in itemDto.Options) {
+        var menuItemOption = menuItem.MenuItemOptions.FirstOrDefault(o =>
+            o.OptionCategory == optionDto.OptionCategory && o.Option == optionDto.OptionName);
+
+        if (menuItemOption != null) {
+          orderItem.UnitPrice += menuItemOption.AdditionalPrice;
+        } else {
+          // throw new ArgumentException($"Option {optionDto.OptionName} not found for menu item {itemDto.MenuItemId}");
+
+        }
+      }
+
+      orderItem.TotalPrice = orderItem.UnitPrice * orderItem.Quantity;
+      totalAmount += orderItem.TotalPrice;
+
+      order.OrderItems.Add(orderItem);
+    }
+
+    order.TotalAmount = totalAmount;
+
+    var createdOrder = await _orderRepository.AddAsync(order);
+
+    return _mapper.Map<OrderResponseDto>(createdOrder);
   }
 
   public async Task<OrderResponseDto> GetOrderByIdAsync(int id) {
     var order = await _orderRepository.GetByIdAsync(id);
+    if (order == null) {
+      return null;
+    }
     return _mapper.Map<OrderResponseDto>(order);
   }
 
-  public async Task<OrderResponseDto> CreateOrderAsync(CreateOrderRequest request) {
-    try {
-      var order = new Order {
-        OrderDate = DateTime.UtcNow,
-        OrderItems = new List<OrderItem>()
-      };
-
-      foreach (var item in request.Items) {
-        var menuItem = await _menuItemRepository.GetByIdAsync(item.MenuItemId);
-        if (menuItem == null) {
-          throw new ArgumentException($"Menu item with id {item.MenuItemId} not found");
-        }
-
-        var orderItem = _mapper.Map<OrderItem>(item);
-        orderItem.Options = string.Join(",", item.Options);
-        order.OrderItems.Add(orderItem);
-      }
-
-      order.TotalAmount = (int)order.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice);
-
-      var createdOrder = await _orderRepository.AddAsync(order);
-      return _mapper.Map<OrderResponseDto>(createdOrder);
-    } catch (Exception ex) {
-      _logger.LogError(ex, "Error creating order");
-      throw;
-    }
-  }
-
-  public async Task<OrderResponseDto> UpdateOrderAsync(Order order) {
-    var updatedOrder = await _orderRepository.UpdateAsync(order);
-    return _mapper.Map<OrderResponseDto>(updatedOrder);
-  }
-
-  public async Task<bool> DeleteOrderAsync(int id) {
-    return await _orderRepository.DeleteAsync(id);
+  public async Task<IEnumerable<OrderResponseDto>> GetAllOrdersAsync() {
+    var orders = await _orderRepository.GetAllAsync();
+    return _mapper.Map<IEnumerable<OrderResponseDto>>(orders);
   }
 }

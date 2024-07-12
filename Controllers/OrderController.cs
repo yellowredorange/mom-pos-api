@@ -43,7 +43,7 @@ namespace MomPosApi.Controllers {
           NumberHandling = JsonNumberHandling.AllowReadingFromString
         };
 
-        var request = JsonSerializer.Deserialize<CreateOrderRequest>(rawRequest.ToString(), options);
+        var request = JsonSerializer.Deserialize<CreateOrderRequestDto>(rawRequest.ToString(), options);
 
         if (request == null || request.Items == null || !request.Items.Any()) {
           _logger.LogWarning("Invalid order request: Empty or null");
@@ -61,22 +61,22 @@ namespace MomPosApi.Controllers {
       }
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order) {
-      if (id != order.OrderId) {
-        return BadRequest();
-      }
-      await _orderService.UpdateOrderAsync(order);
-      return NoContent();
-    }
+    // [HttpPut("{id}")]
+    // public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order) {
+    //   if (id != order.OrderId) {
+    //     return BadRequest();
+    //   }
+    //   await _orderService.UpdateOrderAsync(order);
+    //   return NoContent();
+    // }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteOrder(int id) {
-      var success = await _orderService.DeleteOrderAsync(id);
-      if (!success) {
-        return NotFound();
-      }
-      return NoContent();
-    }
+    // [HttpDelete("{id}")]
+    // public async Task<IActionResult> DeleteOrder(int id) {
+    //   var success = await _orderService.DeleteOrderAsync(id);
+    //   if (!success) {
+    //     return NotFound();
+    //   }
+    //   return NoContent();
+    // }
   }
 }
