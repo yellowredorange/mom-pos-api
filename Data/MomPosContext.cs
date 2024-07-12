@@ -9,6 +9,8 @@ namespace MomPosApi.Data {
         public DbSet<Category> Categories { get; set; }
         public DbSet<MenuConfiguration> MenuConfigurations { get; set; }
         public DbSet<MenuItemOption> MenuItemOptions { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Category>()
@@ -29,12 +31,28 @@ namespace MomPosApi.Data {
                 .HasForeignKey(mio => mio.MenuItemId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade); ;
+
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.MenuItem)
+                .WithMany()
+                .HasForeignKey(oi => oi.MenuItemId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<MenuItem>()
                 .Property(mi => mi.Price)
                 .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<MenuItemOption>()
                 .Property(mio => mio.AdditionalPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(oi => oi.UnitPrice)
                 .HasColumnType("decimal(18,2)");
         }
     }

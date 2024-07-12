@@ -11,11 +11,12 @@ using AutoMapper;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-// builder.Services.AddControllers()
-//     .AddJsonOptions(options => {
-//         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-//     });
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options => {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+    });
 
 
 // Configure Serilog
@@ -64,7 +65,8 @@ builder.Services.AddScoped<IMenuConfigurationRepository, MenuConfigurationReposi
 builder.Services.AddScoped<IMenuConfigurationService, MenuConfigurationService>();
 builder.Services.AddScoped<IMenuItemOptionRepository, MenuItemOptionRepository>();
 builder.Services.AddScoped<IMenuItemOptionService, MenuItemOptionService>();
-
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAutoMapper(typeof(MomPosApi.Profiles.AutoMapperProfiles)); // 明確指定配置類型
 
 // Add controllers
