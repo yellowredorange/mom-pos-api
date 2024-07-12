@@ -43,14 +43,7 @@ namespace MomPosApi.Services {
             return await _menuConfigurationRepository.DeleteAsync(id);
         }
         public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
-            var y = await _menuConfigurationRepository.GetAllAsync();
-            var options = new JsonSerializerOptions {
-                ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                WriteIndented = true
-            };
-            var jsonString = JsonSerializer.Serialize(y, options);
-            Console.WriteLine(jsonString);
-            return y;
+            return await _menuConfigurationRepository.GetAllMenusAsync();
         }
 
     }
