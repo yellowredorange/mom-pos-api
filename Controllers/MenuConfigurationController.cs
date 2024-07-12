@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MomPosApi.Models;
 using MomPosApi.Services;
+
 
 namespace MomPosApi.Controllers {
     [ApiController]
     [Route("api/[controller]")]
     public class MenuConfigurationController : ControllerBase {
         private readonly IMenuConfigurationService _menuConfigurationService;
-
         public MenuConfigurationController(IMenuConfigurationService menuConfigurationService) {
             _menuConfigurationService = menuConfigurationService;
         }
@@ -57,11 +59,37 @@ namespace MomPosApi.Controllers {
             return NoContent();
         }
         [HttpGet("allmenus")]
-        public async Task<ActionResult<IEnumerable<MenuConfiguration>>> GetMenus() {
+        public async Task<ActionResult<IEnumerable<MenuConfigurationDto>>> GetMenus() {
             var menuConfigurations = await _menuConfigurationService.GetAllMenusAsync();
-            return Ok(menuConfigurations);
+            var result = menuConfigurations.Select(mc => new {
+                mc.MenuConfigurationId,
+                mc.Name,
+                mc.IsActive,
+                mc.SortOrder,
+                Categories = mc.Categories.Select(c => new {
+                    c.CategoryId,
+                    c.Name,
+                    c.IsActive,
+                    c.SortOrder,
+                    MenuItems = c.MenuItems.Select(mi => new {
+                        mi.MenuItemId,
+                        mi.Name,
+                        mi.Description,
+                        mi.Price,
+                        mi.IsActive,
+                        mi.PhotoUrl,
+                        mi.SortOrder,
+                        MenuItemOptions = mi.MenuItemOptions.Select(mio => new {
+                            mio.MenuItemOptionId,
+                            mio.Option,
+                            mio.OptionCategory,
+                            mio.AdditionalPrice,
+                            mio.SortOrder
+                        })
+                    })
+                })
+            });
+            return Ok(result);
         }
-
     }
-
 }

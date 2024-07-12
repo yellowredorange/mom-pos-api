@@ -9,6 +9,5 @@ namespace MomPosApi.Models {
         public required string Name { get; set; }
         public bool IsActive { get; set; }
         public int SortOrder { get; set; }
-        public List<int> CategoryIds { get; set; } = [];
     }
 }

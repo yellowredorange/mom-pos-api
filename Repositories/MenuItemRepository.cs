@@ -9,11 +9,11 @@ public class MenuItemRepository : IMenuItemRepository {
     }
 
     public async Task<IEnumerable<MenuItem>> GetAllAsync() {
-        return await _context.MenuItems.Include(mi => mi.MenuItemOption).ToListAsync();
+        return await _context.MenuItems.Include(mi => mi.MenuItemOptions).ToListAsync();
     }
 
     public async Task<MenuItem> GetByIdAsync(int id) {
-        return await _context.MenuItems.Include(mi => mi.MenuItemOption).FirstOrDefaultAsync(mi => mi.MenuItemId == id);
+        return await _context.MenuItems.Include(mi => mi.MenuItemOptions).FirstOrDefaultAsync(mi => mi.MenuItemId == id);
     }
 
     public async Task<MenuItem> AddAsync(MenuItem entity) {

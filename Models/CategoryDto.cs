@@ -9,7 +9,6 @@ namespace MomPosApi.Models {
         public required string Name { get; set; }
         public int MenuConfigurationId { get; set; }
         public bool IsActive { get; set; }
-        public List<int> MenuItemIds { get; set; } = [];
         public int SortOrder { get; set; }
     }
 }

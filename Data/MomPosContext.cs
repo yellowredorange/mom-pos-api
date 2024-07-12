@@ -12,10 +12,10 @@ namespace MomPosApi.Data {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Category>()
-       .HasOne(c => c.MenuConfiguration)
-       .WithMany(mc => mc.Categories)
-       .HasForeignKey(c => c.MenuConfigurationId)
-       .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(c => c.MenuConfiguration)
+                .WithMany(mc => mc.Categories)
+                .HasForeignKey(c => c.MenuConfigurationId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<MenuItem>()
                 .HasOne(mi => mi.Category)

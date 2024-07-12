@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MomPosApi.Models;
 using MomPosApi.Repositories;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace MomPosApi.Services {
     public class MenuConfigurationService : IMenuConfigurationService {
         private readonly IMenuConfigurationRepository _menuConfigurationRepository;
@@ -42,7 +43,14 @@ namespace MomPosApi.Services {
             return await _menuConfigurationRepository.DeleteAsync(id);
         }
         public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
-            return await _menuConfigurationRepository.GetAllAsync();
+            var y = await _menuConfigurationRepository.GetAllAsync();
+            var options = new JsonSerializerOptions {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
+            var jsonString = JsonSerializer.Serialize(y, options);
+            Console.WriteLine(jsonString);
+            return y;
         }
 
     }
