@@ -35,18 +35,18 @@ public class OrderService : IOrderService {
       };
 
       // 計算選項的額外價格
+      var optionsList = new List<string>();
       foreach (var optionDto in itemDto.Options) {
         var menuItemOption = menuItem.MenuItemOptions.FirstOrDefault(o =>
             o.OptionCategory == optionDto.OptionCategory && o.Option == optionDto.OptionName);
 
         if (menuItemOption != null) {
           orderItem.UnitPrice += menuItemOption.AdditionalPrice;
-        } else {
-          // throw new ArgumentException($"Option {optionDto.OptionName} not found for menu item {itemDto.MenuItemId}");
+          optionsList.Add($"{optionDto.OptionCategory}:{optionDto.OptionName}");
 
         }
       }
-
+      orderItem.Options = optionsList.Count > 0 ? string.Join(",", optionsList) : string.Empty;
       orderItem.TotalPrice = orderItem.UnitPrice * orderItem.Quantity;
       totalAmount += orderItem.TotalPrice;
 
@@ -71,5 +71,9 @@ public class OrderService : IOrderService {
   public async Task<IEnumerable<OrderResponseDto>> GetAllOrdersAsync() {
     var orders = await _orderRepository.GetAllAsync();
     return _mapper.Map<IEnumerable<OrderResponseDto>>(orders);
+  }
+
+  public async Task<bool> DeleteOrderAsync(int id) {
+    return await _orderRepository.DeleteAsync(id);
   }
 }

@@ -54,7 +54,8 @@ namespace MomPosApi.Models {
         public string MenuItemName { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        public string Options { get; set; }
+        public List<string> Options { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 
     public class OrderResponseDto {
@@ -63,4 +64,5 @@ namespace MomPosApi.Models {
         public decimal TotalAmount { get; set; }
         public List<OrderItemResponseDto> OrderItems { get; set; }
     }
+
 }

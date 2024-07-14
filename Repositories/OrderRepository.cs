@@ -13,9 +13,11 @@ public class OrderRepository : IOrderRepository {
   }
 
   public async Task<List<Order>> GetAllAsync() {
-    return await _context.Orders.Include(o => o.OrderItems)
-                                .ThenInclude(oi => oi.MenuItem)
-                                .ToListAsync();
+    return await _context.Orders
+             .OrderByDescending(o => o.OrderDate)
+             .Include(o => o.OrderItems)
+             .ThenInclude(oi => oi.MenuItem)
+             .ToListAsync();
   }
 
   public async Task<Order> GetByIdAsync(int id) {

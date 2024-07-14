@@ -60,23 +60,18 @@ namespace MomPosApi.Controllers {
         return StatusCode(500, "An error occurred while processing your request.");
       }
     }
-
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order) {
-    //   if (id != order.OrderId) {
-    //     return BadRequest();
-    //   }
-    //   await _orderService.UpdateOrderAsync(order);
-    //   return NoContent();
-    // }
-
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> DeleteOrder(int id) {
-    //   var success = await _orderService.DeleteOrderAsync(id);
-    //   if (!success) {
-    //     return NotFound();
-    //   }
-    //   return NoContent();
-    // }
+    [HttpGet("history")]
+    public async Task<ActionResult<IEnumerable<OrderResponseDto>>> GetOrderHistory() {
+      var orders = await _orderService.GetAllOrdersAsync();
+      return Ok(orders);
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteOrder(int id) {
+      var success = await _orderService.DeleteOrderAsync(id);
+      if (!success) {
+        return NotFound();
+      }
+      return NoContent();
+    }
   }
 }

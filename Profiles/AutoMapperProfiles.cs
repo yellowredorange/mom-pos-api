@@ -11,7 +11,12 @@ namespace MomPosApi.Profiles {
             CreateMap<Order, OrderDto>();
             CreateMap<Order, OrderResponseDto>();
             CreateMap<OrderItem, OrderItemResponseDto>()
-                .ForMember(dest => dest.MenuItemName, opt => opt.MapFrom(src => src.MenuItem.Name));
+                .ForMember(dest => dest.MenuItemName, opt => opt.MapFrom(src => src.MenuItem.Name))
+            .ForMember(dest => dest.Options, opt => opt.MapFrom(src => SplitOptions(src.Options)));
+
+        }
+        private List<string> SplitOptions(string options) {
+            return options?.Split(',').ToList() ?? [];
         }
     }
 }
