@@ -9,6 +9,7 @@ using MomPosApi.Data;
 using MomPosApi.Services;
 using AutoMapper;
 using System.Text.Json.Serialization;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
@@ -47,6 +48,14 @@ builder.Services.AddCors(options => {
         });
 });
 
+// Https Setting
+builder.WebHost.ConfigureKestrel(serverOptions => {
+    serverOptions.Listen(IPAddress.Any, 443, listenOptions => {
+        listenOptions.UseHttps("/etc/ssl/certs/cloudflare.pem", "/etc/ssl/private/cloudflare.key");
+
+    });
+});
+
 // Register DbContext with SQL Server
 builder.Services.AddDbContext<MomPosApi.Data.MomPosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
@@ -78,7 +87,7 @@ builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
-// Configure middleware
+app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 app.UseSwagger();
 app.UseSwaggerUI();
