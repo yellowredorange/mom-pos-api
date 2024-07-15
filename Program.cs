@@ -49,14 +49,6 @@ builder.Services.AddCors(options => {
         });
 });
 
-// Https Setting
-builder.WebHost.ConfigureKestrel(serverOptions => {
-    serverOptions.Listen(IPAddress.Any, 8080, listenOptions => {
-        listenOptions.UseHttps("/etc/ssl/certs/cloudflare.pem", "/etc/ssl/private/cloudflare.key");
-
-    });
-});
-
 // Register DbContext with SQL Server
 builder.Services.AddDbContext<MomPosApi.Data.MomPosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
@@ -77,7 +69,7 @@ builder.Services.AddScoped<IMenuItemOptionRepository, MenuItemOptionRepository>(
 builder.Services.AddScoped<IMenuItemOptionService, MenuItemOptionService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddAutoMapper(typeof(MomPosApi.Profiles.AutoMapperProfiles)); // 明確指定配置類型
+builder.Services.AddAutoMapper(typeof(MomPosApi.Profiles.AutoMapperProfiles));
 
 // Add controllers
 builder.Services.AddControllers();
@@ -87,9 +79,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
-app.UseForwardedHeaders(new ForwardedHeadersOptions {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
 app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 app.UseSwagger();
