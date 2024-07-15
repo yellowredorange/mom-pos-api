@@ -15,12 +15,13 @@ jobs:
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /path/to/your/project
+          cd momposapi
           git pull
           docker build -t momposapi .
           docker stop momposapi || true
           docker rm momposapi || true
           docker run -d -p 80:8080 -p 443:8080 --name momposapi \
-            -e ASPNETCORE_URLS="https://mosposapi.yellowredorange.com" \
-            -e ASPNETCORE_ENVIRONMENT="Production" \
+            -e ASPNETCORE_URLS="http://+" \
+            -v /etc/ssl/certs/cloudflare.pem:/etc/ssl/certs/cloudflare.pem:ro \
+            -v /etc/ssl/private/cloudflare.key:/etc/ssl/private/cloudflare.key:ro \
             momposapi

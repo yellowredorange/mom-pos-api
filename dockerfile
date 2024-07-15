@@ -15,6 +15,4 @@ RUN dotnet publish "MomPosApi.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY /etc/ssl/certs/cloudflare.pem /etc/ssl/certs/cloudflare.pem
-COPY /etc/ssl/private/cloudflare.key /etc/ssl/private/cloudflare.key
 ENTRYPOINT ["dotnet", "MomPosApi.dll"]
