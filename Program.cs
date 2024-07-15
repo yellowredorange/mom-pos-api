@@ -50,7 +50,7 @@ builder.Services.AddCors(options => {
 
 // Https Setting
 builder.WebHost.ConfigureKestrel(serverOptions => {
-    serverOptions.Listen(IPAddress.Any, 443, listenOptions => {
+    serverOptions.Listen(IPAddress.Any, 8080, listenOptions => {
         listenOptions.UseHttps("/etc/ssl/certs/cloudflare.pem", "/etc/ssl/private/cloudflare.key");
 
     });

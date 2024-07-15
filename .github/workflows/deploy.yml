@@ -1,22 +1,26 @@
 name: Deploy to DigitalOcean
 on:
   push:
-    branches: [main]
+    branches: [ main ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy to DigitalOcean
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: ${{ secrets.DROPLET_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd momposapi
-            git pull
-            docker build -t momposapi .
-            docker stop momposapi || true
-            docker rm momposapi || true
-            docker run -d -p 80:8080 -p 443:8080 --name momposapi momposapi
+    - uses: actions/checkout@v2
+    - name: Deploy to DigitalOcean
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /path/to/your/project
+          git pull
+          docker build -t momposapi .
+          docker stop momposapi || true
+          docker rm momposapi || true
+          docker run -d -p 80:8080 -p 443:8080 --name momposapi \
+            -v /etc/ssl/certs/cloudflare.pem:/etc/ssl/certs/cloudflare.pem:ro \
+            -v /etc/ssl/private/cloudflare.key:/etc/ssl/private/cloudflare.key:ro \
+            momposapi

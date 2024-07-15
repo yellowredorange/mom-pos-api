@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MomPosApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+153505ea48141da909ce45777589135bb1253cd9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0d7972ca37b73c2f856bfce79894de8b9cde78b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MomPosApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MomPosApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
