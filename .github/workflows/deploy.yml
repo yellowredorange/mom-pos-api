@@ -21,6 +21,7 @@ jobs:
           docker stop momposapi || true
           docker rm momposapi || true
           docker run -d -p 80:8080 -p 443:8080 --name momposapi \
-            -v /etc/ssl/certs/cloudflare.pem:/etc/ssl/certs/cloudflare.pem:ro \
-            -v /etc/ssl/private/cloudflare.key:/etc/ssl/private/cloudflare.key:ro \
+            -e ASPNETCORE_URLS="http://+" \
+            -e ASPNETCORE_ENVIRONMENT="Production" \
+            -e APP_BASE_URL="https://api-mospos.yellowredorange.com" \
             momposapi
