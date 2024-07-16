@@ -295,3 +295,4 @@ C:\Users\USER\Desktop\Project\mom-pos-api\obj\Debug\net8.0\refint\MomPosApi.dll
 C:\Users\USER\Desktop\Project\mom-pos-api\obj\Debug\net8.0\MomPosApi.pdb
 C:\Users\USER\Desktop\Project\mom-pos-api\obj\Debug\net8.0\MomPosApi.genruntimeconfig.cache
 C:\Users\USER\Desktop\Project\mom-pos-api\obj\Debug\net8.0\ref\MomPosApi.dll
+C:\Users\USER\Desktop\Project\mom-pos-api\bin\Debug\net8.0\appsettings.Production.json
