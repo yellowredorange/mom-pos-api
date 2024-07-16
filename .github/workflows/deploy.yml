@@ -15,7 +15,7 @@ jobs:
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-            cd /root/momposapi
+            cd /root/mom-pos-api
             echo "Pulling latest changes..."
             git clone https://github.com/yellowredorange/mom-pos-api.git
             echo "Setting up environment variables..."
