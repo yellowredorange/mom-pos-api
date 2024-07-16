@@ -16,5 +16,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
             cd momposapi
-            git pull
+            git pull origin main
             docker-compose up -d --build
