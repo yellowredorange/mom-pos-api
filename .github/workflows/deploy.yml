@@ -15,9 +15,9 @@ jobs:
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-            cd momposapi
+            cd /root/momposapi
             echo "Pulling latest changes..."
-            git pull origin main
+            git clone https://github.com/yellowredorange/mom-pos-api.git
             echo "Setting up environment variables..."
             export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
             echo "Building and starting containers..."
