@@ -20,6 +20,4 @@ jobs:
             docker build -t momposapi .
             docker stop momposapi || true
             docker rm momposapi || true
-            docker run -d -p 80:8080 -p 443:8080
-            -e ASPNETCORE_ENVIRONMENT=Production \
-            --name momposapi --network mompos-network momposapi
+            docker run -d -p 80:8080 -p 443:8080  --name momposapi momposapi
