@@ -15,6 +15,7 @@ jobs:
         sed -i 's/${DB_PASSWORD}/'$DB_PASSWORD'/g' appsettings.Production.json
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@master
+      timeout-minutes: 30
       with:
         host: ${{ secrets.DROPLET_IP }}
         username: ${{ secrets.DROPLET_USER }}
