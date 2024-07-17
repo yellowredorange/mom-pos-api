@@ -9,7 +9,7 @@ services:
       - "443:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - DB_PASSWORD=${DB_PASSWORD}
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
     networks:
       - mompos-network
 
@@ -17,7 +17,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=${DB_PASSWORD}
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
     ports:
       - "1433:1433"
     volumes:
@@ -27,7 +27,6 @@ services:
 
 networks:
   mompos-network:
-    external: true
 
 volumes:
   mompos-data:

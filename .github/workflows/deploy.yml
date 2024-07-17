@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Replace secrets in appsettings.production.json
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        sed -i 's/${DB_PASSWORD}/'$DB_PASSWORD'/g' appsettings.Production.json
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@master
       with:
@@ -17,11 +22,10 @@ jobs:
         script: |
             cd /root/mom-pos-api
             echo "Pulling latest changes..."
-            git clone https://github.com/yellowredorange/mom-pos-api.git
+            git pull origin main
             echo "Setting up environment variables..."
             export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
             echo "Building and starting containers..."
-            docker-compose build --no-cache
+            docker-compose build
             docker-compose up -d
-            echo "Checking container logs..."
-            docker-compose logs
+            docker image prune -f
