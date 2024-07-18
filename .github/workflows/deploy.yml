@@ -12,7 +12,7 @@ jobs:
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
-        sed -i "s/\${DB_PASSWORD}/${DB_PASSWORD}/g" appsettings.Production.json
+            sed -i "s/PLACEHOLDER_DB_PASSWORD/${{ secrets.DB_PASSWORD }}/g" appsettings.Production.json
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@master
       timeout-minutes: 30
