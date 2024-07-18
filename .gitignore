@@ -75,6 +75,7 @@ publish/
 *.Publish.xml
 *.pubxml
 *.azurePubxml
+.env
 
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
