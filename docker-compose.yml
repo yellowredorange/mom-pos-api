@@ -9,7 +9,7 @@ services:
       - "443:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - SA_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}
     networks:
       - mompos-network
   db:
