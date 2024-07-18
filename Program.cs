@@ -49,12 +49,13 @@ builder.Services.AddCors(options => {
         });
 });
 
-// Register DbContext with SQL Server
-builder.Services.AddDbContext<MomPosApi.Data.MomPosContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+if (dbPassword != null) {
+    var connectionString = builder.Configuration.GetConnectionString("MomPosContext");
+    connectionString = connectionString.Replace("PLACEHOLDER_DB_PASSWORD", dbPassword);
+    builder.Configuration["ConnectionStrings:MomPosContext"] = connectionString;
+}
 
-
-// Add services to the container
 builder.Services.AddDbContext<MomPosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
 
