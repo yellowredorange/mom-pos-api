@@ -21,6 +21,7 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: ${{ secrets.DROPLET_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: DB_PASSWORD
           script: |
             cd /root/mom-pos-api
             echo "Pulling latest changes..."
@@ -31,6 +32,7 @@ jobs:
             sed -i "s/PLACEHOLDER_DB_PASSWORD/${DB_PASSWORD}/g" appsettings.Production.json
             echo "Displaying appsettings.Production.json for verification..."
             cat appsettings.Production.json
+            echo "DB_PASSWORD value (first 3 characters): ${DB_PASSWORD:0:3}..."
             echo "Building and starting containers..."
             docker compose build
             docker compose up -d
