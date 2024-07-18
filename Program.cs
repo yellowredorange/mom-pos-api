@@ -54,7 +54,8 @@ if (dbPassword != null) {
     var connectionString = builder.Configuration.GetConnectionString("MomPosContext");
     connectionString = connectionString.Replace("PLACEHOLDER_DB_PASSWORD", dbPassword);
     builder.Configuration["ConnectionStrings:MomPosContext"] = connectionString;
-}
+    Console.WriteLine("Updated connection string: " + connectionString);
+} else { Console.WriteLine("nope"); }
 
 builder.Services.AddDbContext<MomPosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
