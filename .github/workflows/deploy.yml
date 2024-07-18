@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Deploy to DigitalOcean
+      - name: Pull latest changes and replace secrets
         uses: appleboy/ssh-action@master
         timeout-minutes: 30
         env:
@@ -25,6 +25,8 @@ jobs:
             cd /root/mom-pos-api
             echo "Pulling latest changes..."
             git pull origin main
+            echo "Creating .env file with DB_PASSWORD..."
+            echo "DB_PASSWORD=${DB_PASSWORD}" > .env
             echo "Replacing secrets in appsettings.Production.json..."
             sed -i "s/PLACEHOLDER_DB_PASSWORD/${DB_PASSWORD}/g" appsettings.Production.json
             echo "Displaying appsettings.Production.json for verification..."
