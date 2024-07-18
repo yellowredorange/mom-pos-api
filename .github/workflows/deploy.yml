@@ -29,4 +29,3 @@ jobs:
             echo "Building and starting containers..."
             docker-compose build
             docker-compose up -d
-            docker image prune -f
