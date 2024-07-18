@@ -27,5 +27,5 @@ jobs:
             echo "Setting up environment variables..."
             export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
             echo "Building and starting containers..."
-            docker-compose build
-            docker-compose up -d
+            docker compose build
+            docker compose up -d
