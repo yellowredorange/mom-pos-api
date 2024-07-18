@@ -1,4 +1,5 @@
 name: Deploy to DigitalOcean
+
 on:
   push:
     branches: [ main ]
@@ -6,26 +7,38 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Replace secrets in appsettings.production.json
-      env:
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      run: |
-            sed -i "s/PLACEHOLDER_DB_PASSWORD/${DB_PASSWORD}/g" appsettings.Production.json
-    - name: Display appsettings.Production.json
-      run: cat appsettings.Production.json
-    - name: Deploy to DigitalOcean
-      uses: appleboy/ssh-action@master
-      timeout-minutes: 30
-      with:
-        host: ${{ secrets.DROPLET_IP }}
-        username: ${{ secrets.DROPLET_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        timeout-minutes: 30
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
             cd /root/mom-pos-api
             echo "Pulling latest changes..."
             git pull origin main
+
+      - name: Replace secrets in appsettings.Production.json
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          sed -i "s/PLACEHOLDER_DB_PASSWORD/${DB_PASSWORD}/g" appsettings.Production.json
+
+      - name: Docker Compose Building
+        uses: appleboy/ssh-action@master
+        timeout-minutes: 30
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /root/mom-pos-api
             echo "Setting up environment variables..."
             export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'
             echo "Building and starting containers..."
