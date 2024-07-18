@@ -24,6 +24,7 @@ services:
       - mompos-data:/var/opt/mssql
     networks:
       - mompos-network
+    user: '0:0'
 
 networks:
   mompos-network:
