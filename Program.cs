@@ -20,7 +20,6 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
     });
 
-
 // Configure Serilog
 builder.Host.UseSerilog((context, configuration) => {
     configuration.MinimumLevel.Information()
@@ -49,14 +48,6 @@ builder.Services.AddCors(options => {
         });
 });
 
-var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-if (dbPassword != null) {
-    var connectionString = builder.Configuration.GetConnectionString("MomPosContext");
-    connectionString = connectionString.Replace("PLACEHOLDER_DB_PASSWORD", dbPassword);
-    builder.Configuration["ConnectionStrings:MomPosContext"] = connectionString;
-    Console.WriteLine("Updated connection string: " + connectionString);
-} else { Console.WriteLine("nope"); }
-
 builder.Services.AddDbContext<MomPosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MomPosContext")));
 
@@ -81,6 +72,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
+
+//database migration
+using (var scope = app.Services.CreateScope()) {
+    var services = scope.ServiceProvider;
+    try {
+        var context = services.GetRequiredService<MomPosContext>();
+        context.Database.Migrate();
+        Log.Information("Database migration completed successfully.");
+    } catch (Exception ex) {
+        Log.Error(ex, "An error occurred while migrating the database.");
+    }
+}
+
+
 app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 app.UseSwagger();
