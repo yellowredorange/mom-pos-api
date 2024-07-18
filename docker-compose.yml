@@ -14,7 +14,7 @@ services:
       - mompos-network
 
   db:
-    image: mcr.microsoft.com/mssql/server:2017-CU29-ubuntu
+    image: mcr.microsoft.com/mssql/server:2017-latest
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${DB_PASSWORD}
