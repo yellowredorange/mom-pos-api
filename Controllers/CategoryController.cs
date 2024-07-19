@@ -36,6 +36,18 @@ namespace MomPosApi.Controllers {
             var createdCategory = await _categoryService.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = createdCategory.CategoryId }, createdCategory);
         }
+        [HttpPost("range")]
+        public async Task<IActionResult> AddRange(IEnumerable<CategoryDto> dto) {
+            if (dto == null || !dto.Any()) {
+                return BadRequest("No entity provided");
+            }
+            try {
+                await _categoryService.AddRangeAsync(dtos: dto);
+                return Ok($"Successfully added {dto.Count()} entities");
+            } catch (Exception) {
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CategoryDto dto) {
@@ -56,6 +68,7 @@ namespace MomPosApi.Controllers {
 
             return NoContent();
         }
+
     }
 
 }

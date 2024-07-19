@@ -3,10 +3,10 @@ using MomPosApi.Models;
 using MomPosApi.Services;
 
 public class CategoryService : ICategoryService {
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IRepository<Category> _categoryRepository;
     private readonly IMapper _mapper;
 
-    public CategoryService(ICategoryRepository categoryRepository, IMapper mapper) {
+    public CategoryService(IRepository<Category> categoryRepository, IMapper mapper) {
         _categoryRepository = categoryRepository;
         _mapper = mapper;
     }
@@ -36,4 +36,10 @@ public class CategoryService : ICategoryService {
     public async Task<bool> DeleteAsync(int id) {
         return await _categoryRepository.DeleteAsync(id);
     }
+
+    public async Task AddRangeAsync(IEnumerable<CategoryDto> dtos) {
+        var categories = _mapper.Map<IEnumerable<Category>>(dtos);
+        await _categoryRepository.AddRangeAsync(categories);
+    }
+
 }

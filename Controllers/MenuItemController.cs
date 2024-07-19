@@ -36,6 +36,18 @@ namespace MomPosApi.Controllers {
             var createdMenuItem = await _menuItemService.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = createdMenuItem.MenuItemId }, createdMenuItem);
         }
+        [HttpPost("range")]
+        public async Task<IActionResult> AddRange(IEnumerable<MenuItemDto> dto) {
+            if (dto == null || !dto.Any()) {
+                return BadRequest("No entity provided");
+            }
+            try {
+                await _menuItemService.AddRangeAsync(dto);
+                return Ok($"Successfully added {dto.Count()} entities");
+            } catch (Exception) {
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, MenuItemDto dto) {

@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using MomPosApi.Models;
-using MomPosApi.Repositories;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
 namespace MomPosApi.Services {
     public class MenuConfigurationService : IMenuConfigurationService {
         private readonly IMenuConfigurationRepository _menuConfigurationRepository;
@@ -45,7 +39,10 @@ namespace MomPosApi.Services {
         public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
             return await _menuConfigurationRepository.GetAllMenusAsync();
         }
+        public async Task AddRangeAsync(IEnumerable<MenuConfigurationDto> dtos) {
+            IEnumerable<MenuConfiguration> MenuConfigurations = _mapper.Map<IEnumerable<MenuConfiguration>>(dtos);
+            await _menuConfigurationRepository.AddRangeAsync(MenuConfigurations);
+        }
 
     }
-
 }

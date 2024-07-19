@@ -8,10 +8,10 @@ using MomPosApi.Repositories;
 
 namespace MomPosApi.Services {
     public class MenuItemOptionService : IMenuItemOptionService {
-        private readonly IMenuItemOptionRepository _menuItemOptionRepository;
+        private readonly IRepository<MenuItemOption> _menuItemOptionRepository;
         private readonly IMapper _mapper;
 
-        public MenuItemOptionService(IMenuItemOptionRepository menuItemOptionRepository, IMapper mapper) {
+        public MenuItemOptionService(IRepository<MenuItemOption> menuItemOptionRepository, IMapper mapper) {
             _menuItemOptionRepository = menuItemOptionRepository;
             _mapper = mapper;
         }
@@ -40,6 +40,10 @@ namespace MomPosApi.Services {
 
         public async Task<bool> DeleteAsync(int id) {
             return await _menuItemOptionRepository.DeleteAsync(id);
+        }
+        public async Task AddRangeAsync(IEnumerable<MenuItemOptionDto> dtos) {
+            IEnumerable<MenuItemOption> menuItemOptions = _mapper.Map<IEnumerable<MenuItemOption>>(source: dtos);
+            await _menuItemOptionRepository.AddRangeAsync(menuItemOptions);
         }
     }
 

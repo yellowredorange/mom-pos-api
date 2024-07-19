@@ -11,6 +11,7 @@ namespace MomPosApi.Services {
         Task<MenuItemOptionDto> AddAsync(MenuItemOptionDto dto);
         Task<MenuItemOptionDto> UpdateAsync(MenuItemOptionDto dto);
         Task<bool> DeleteAsync(int id);
+        Task AddRangeAsync(IEnumerable<MenuItemOptionDto> dtos);
     }
 
 }

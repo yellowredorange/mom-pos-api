@@ -1,0 +1,170 @@
+我想建立大量的資料表，在我的資料表的格式底下，幫我可以嗎?
+    public class CategoryDto {
+        public int CategoryId { get; set; }
+        public required string Name { get; set; }
+        public int MenuConfigurationId { get; set; }
+        public bool IsActive { get; set; }
+        public int SortOrder { get; set; }
+    }
+    public class MenuConfigurationDto {
+        public int MenuConfigurationId { get; set; }
+        public required string Name { get; set; }
+        public bool IsActive { get; set; }
+        public int SortOrder { get; set; }
+    }
+    public class MenuItemDto {
+        public int MenuItemId { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public decimal Price { get; set; }
+        public bool IsActive { get; set; }
+        public int CategoryId { get; set; }
+        public required string PhotoUrl { get; set; }
+        public int SortOrder { get; set; }
+    }
+    public class MenuItemOptionDto {
+        public int MenuItemOptionId { get; set; }
+        public required string Option { get; set; }
+        public required string OptionCategory { get; set; }
+        public decimal AdditionalPrice { get; set; }
+        public int SortOrder { get; set; }
+        public int MenuItemId { get; set; }
+    }
+
+統一格式，檢查翻譯，提供給我正確的全文
+
+河粉 (Phở)
+鮮牛肉肉丸河粉 - Phở bò tái viên - 140元
+鮮牛肉河粉 - Phở bò tái - 120元
+總統河粉 - Phở Tổng Thống - 250元
+越式紅燒牛肉河粉 - Phở Bò kho - 160元
+什錦炒河粉 - Phở xào thập cẩm - 120元
+烤排骨乾河粉 - Phở sườn nướng khô - 110元 〈口味:魚露∣醬油〉
+炸春捲乾河粉 - Phở chả giò chiên khô - 110元
+蝦醬乾河粉 - Phở trộn mắm nêm khô - 100元
+米線 (Bún)
+原味海鮮米線 - Bún hải sản - 120元
+酸辣海鮮米線 - Bún hải sản (vị chua cay) - 120元
+鮮牛肉肉丸米線 - Bún bò tái viên - 140元
+鮮牛肉米線 - Bún bò tái - 120元
+順化牛肉米線 (辣) - Bún bò Huế - 140元
+越式紅燒牛肉米線 - Bún Bò kho - 160元
+烤排骨乾米線 - Bún sườn nướng khô - 110元 〈口味:魚露∣醬油〉
+炸春捲乾米線 - Bún chả giò chiên khô - 110元
+蝦醬乾米線 - Bún trộn mắm nêm khô - 100元
+泡麵 (Mì gói)
+原味海鮮泡麵 - Mì gói hải sản - 120元
+酸辣海鮮泡麵 - Mì gói hải sản (vị chua cay) - 120元
+鮮牛肉肉丸泡麵 - Mì gói bò tái viên - 140元
+鮮牛肉泡麵 - Mì gói bò tái - 120元
+越式紅燒牛肉泡麵 - Mì gói Bò kho - 160元
+什錦炒泡麵 - Mì gói xào thập cẩm - 120元
+
+*飯類
+
+香茅烤排骨飯 Cơm sườn nướng 120元
+
+魚露炸雞翅飯 Cơm cánh gà chiên 100元
+
+豬肉香茅蝦醬飯 Cơm ruốc xào thịt sả ớt 100元
+
+鮫魚蒸蛋飯 Cơm mắm cá linh chưng trứng 100元
+
+香茅烤三層肉飯 Cơm ba rọi nướng sả 130元
+
+雞腿飯 Cơm đùi gà 130元
+
+蛋炒飯 Cơm chiên trứng 90元
+
+牛肉炒飯 Cơm chiên bò 120元
+
+蝦醬海鮮炒飯(辣度:不辣/小辣/中辣/大辣) Cơm chiên mắm ruốc hải sản (cay nhẹ) 130元
+
+鳳梨海鮮炒飯 Cơm chiên khớm hải sản 130元
+
+
+*湯品
+
+越式酸辣湯(種類:魚∣蛤蜊∣蝦子) Canh chua 130元
+
+海鮮酸辣湯 Canh hải sản chua cay 220元
+
+香茅蛤蜊(種類:清蒸∣湯) Nghêu nấu sả 120元
+
+苦瓜包肉湯 Canh khổ qua nhồi thịt 130元
+
+鮮牛肉肉牛九湯 Canh bò tái viên 100元
+
+*越式小吃
+
+蝦醬高麗菜 100元
+
+燙青菜 Rau luộc 30元
+
+月亮蝦餅(滿滿蝦) Bánh mặt trăng 250元
+
+月亮蝦餅 Bánh mặt trăng 200元
+
+蝦仁小煎餅 Bánh khọt (tôm, thịt, đậu xanh) 160元
+
+大蝦餅 Bánh xèo (tôm, thịt, trứng, măng, đậu xanh) 180元
+
+酥炸春捲 Chả giò chiên 80元
+
+九層塔煎蛋 Trứng chiên rau quế 90元
+
+炸雞腿(單點) Đùi gà chiên 90元
+
+魚露炸雞翅 Cánh gà chiên nước mắm 90元
+
+香茅烤排骨(單點) Sườn nướng (miếng) 70元
+
+烤三層肉(單點) Ba rọi nướng (miếng) 80元
+
+涼拌木瓜 Gỏi đu đủ 80元
+
+涼拌海鮮青木瓜絲 Gỏi đu đủ tôm thịt 160元
+
+椰子蒸蝦 Tôm hấp nước dừa 200元
+
+黑胡椒蝦 Tôm cháy tiêu đen 200元
+
+*麵包手捲
+
+火腿法國麵包 Bánh mì chả lụa 100元
+
+越式法國麵包 Bánh mì thập cẩm 120元
+
+煉奶花生麵包 Bánh mì sữa Ông Thọ 70元
+
+涼皮蝦捲(3卷) Gỏi cuốn TÔM 160元
+
+涼皮春捲(2卷) Gỏi cuốn 60元
+
+涼皮春捲(3卷) Gỏi cuốn 80元
+
+綜合全餐手卷(DIY)(2-3人份) Bánh tráng cuốn thập cẩm 300元
+
+*甜品飲料
+
+滴滴冰煉乳咖啡(內含煉乳)(甜度:煉乳3分∣6分∣9分) Cà phê sữa đá 60元
+
+越式冰拿鐵(內含鮮奶、煉乳)(甜度:煉乳3分∣6分∣9分) Cà phê sữa tươi 90元
+
+椰奶甜湯 Chè cốt dừa 50元
+
+印尼奶茶 Trà sữa Indo 50元(溫度:冰/溫/熱)
+
+法式越南優格 Sữa chua Việt Nam 50元
+
+檸檬汽水 Soda chanh 50元
+
+羅望子汁 Nước đá me 50元
+
+可樂 Coca 30元
+
+椰子水nước dừa 30元
+
+越南檸檬風味綠茶(罐裝) Lốc Trà xanh không độ Number one 30元
+
+越南草莓口味提神汽水(罐裝) Sting hương dâu chai 30元

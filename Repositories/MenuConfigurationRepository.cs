@@ -7,42 +7,8 @@ using MomPosApi.Data;
 using MomPosApi.Models;
 
 namespace MomPosApi.Repositories {
-    public class MenuConfigurationRepository : IMenuConfigurationRepository {
-        private readonly MomPosContext _context;
-
-        public MenuConfigurationRepository(MomPosContext context) {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<MenuConfiguration>> GetAllAsync() {
-            return await _context.MenuConfigurations.Include(mc => mc.Categories).ToListAsync();
-        }
-
-        public async Task<MenuConfiguration> GetByIdAsync(int id) {
-            return await _context.MenuConfigurations.Include(mc => mc.Categories).FirstOrDefaultAsync(mc => mc.MenuConfigurationId == id);
-        }
-
-        public async Task<MenuConfiguration> AddAsync(MenuConfiguration entity) {
-            _context.MenuConfigurations.Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<MenuConfiguration> UpdateAsync(MenuConfiguration entity) {
-            _context.MenuConfigurations.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> DeleteAsync(int id) {
-            var menuConfiguration = await _context.MenuConfigurations.FindAsync(id);
-            if (menuConfiguration == null) {
-                return false;
-            }
-
-            _context.MenuConfigurations.Remove(menuConfiguration);
-            await _context.SaveChangesAsync();
-            return true;
+    public class MenuConfigurationRepository : Repository<MenuConfiguration>, IMenuConfigurationRepository {
+        public MenuConfigurationRepository(MomPosContext context) : base(context) {
         }
         public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
             return await _context.MenuConfigurations
@@ -51,7 +17,5 @@ namespace MomPosApi.Repositories {
                 .ThenInclude(mi => mi.MenuItemOptions)
                 .ToListAsync();
         }
-
     }
-
 }

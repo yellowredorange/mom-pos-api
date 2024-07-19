@@ -3,10 +3,10 @@ using MomPosApi.Models;
 
 public class OrderService : IOrderService {
   private readonly IOrderRepository _orderRepository;
-  private readonly IMenuItemRepository _menuItemRepository;
+  private readonly IRepository<MenuItem> _menuItemRepository;
   private readonly IMapper _mapper;
 
-  public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository, IMapper mapper) {
+  public OrderService(IOrderRepository orderRepository, IRepository<MenuItem> menuItemRepository, IMapper mapper) {
     _orderRepository = orderRepository;
     _menuItemRepository = menuItemRepository;
     _mapper = mapper;
