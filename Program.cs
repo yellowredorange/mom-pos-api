@@ -20,6 +20,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
     });
 
+builder.Services.AddHttpClient();
+
 // Configure Serilog
 builder.Host.UseSerilog((context, configuration) => {
     configuration.MinimumLevel.Information()
@@ -73,25 +75,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDistributedMemoryCache();
 
-// 註冊 DataSeeder
-builder.Services.AddTransient<DataSeeder>();
+// //! 註冊 DataSeeder
+// builder.Services.AddTransient<DataSeeder>();
 // //! 註冊 ResetDatabase
 // builder.Services.AddTransient<ResetDatabase>();
 
 var app = builder.Build();
 
-//! 建立預設資料
-using (var scope = app.Services.CreateScope()) {
-    var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
-    await seeder.SeedDataAsync();
-}
-// //! Reset所有資料
+// //! 建立預設資料
+// using (var scope = app.Services.CreateScope()) {
+//     var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+//     await seeder.SeedDataAsync();
+// }
+// //! Reset 所有資料
 // using (var scope = app.Services.CreateScope()) {
 //     var reset = scope.ServiceProvider.GetRequiredService<ResetDatabase>();
 //     await reset.Reset();
 // }
 
-// //database migration
+// //! 做 Database Migration
 // using (var scope = app.Services.CreateScope()) {
 //     var services = scope.ServiceProvider;
 //     try {
