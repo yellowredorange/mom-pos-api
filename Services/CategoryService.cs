@@ -1,10 +1,5 @@
 using AutoMapper;
 using MomPosApi.Models;
-using MomPosApi.Repositories;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MomPosApi.Services;
 
 public class CategoryService : ICategoryService {
