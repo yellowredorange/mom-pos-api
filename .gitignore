@@ -87,6 +87,7 @@ packages/
 csx/
 *.build.csdef
 appsettings.Production.json
+appsettings.Development.json
 # Windows Store app package directory
 AppPackages/
 
