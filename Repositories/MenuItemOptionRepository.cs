@@ -7,6 +7,6 @@ using MomPosApi.Data;
 using MomPosApi.Models;
 
 public class MenuItemOptionRepository : Repository<MenuItemOption> {
-    public MenuItemOptionRepository(MomPosContext context) : base(context) {
+    public MenuItemOptionRepository(MomPosContext context, ILogger<MenuItemOptionRepository> logger) : base(context, logger) {
     }
 }

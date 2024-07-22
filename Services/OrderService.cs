@@ -63,7 +63,7 @@ public class OrderService : IOrderService {
   public async Task<OrderResponseDto> GetOrderByIdAsync(int id) {
     var order = await _orderRepository.GetByIdAsync(id);
     if (order == null) {
-      return null;
+      throw new($"Order with ID {id} not found");
     }
     return _mapper.Map<OrderResponseDto>(order);
   }

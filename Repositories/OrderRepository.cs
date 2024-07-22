@@ -21,9 +21,18 @@ public class OrderRepository : IOrderRepository {
   }
 
   public async Task<Order> GetByIdAsync(int id) {
-    return await _context.Orders.Include(o => o.OrderItems)
-                                .ThenInclude(oi => oi.MenuItem)
-                                .FirstOrDefaultAsync(o => o.OrderId == id);
+    var order = await _context.Orders.FindAsync(id);
+    if (order == null) {
+      throw new KeyNotFoundException($"Order with ID {id} not found");
+    }
+
+    await _context.Entry(order)
+        .Collection(o => o.OrderItems)
+        .Query()
+        .Include(oi => oi.MenuItem)
+        .LoadAsync();
+
+    return order;
   }
 
   public async Task<Order> AddAsync(Order entity) {

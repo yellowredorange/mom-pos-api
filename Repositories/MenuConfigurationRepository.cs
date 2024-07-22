@@ -8,7 +8,7 @@ using MomPosApi.Models;
 
 namespace MomPosApi.Repositories {
     public class MenuConfigurationRepository : Repository<MenuConfiguration>, IMenuConfigurationRepository {
-        public MenuConfigurationRepository(MomPosContext context) : base(context) {
+        public MenuConfigurationRepository(MomPosContext context, ILogger<MenuConfigurationRepository> logger) : base(context, logger) {
         }
         public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
             return await _context.MenuConfigurations
