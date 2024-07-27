@@ -7,16 +7,20 @@ using Microsoft.Extensions.Configuration;
 using Imgur.API.Authentication;
 using Imgur.API.Endpoints;
 using Imgur.API.Models;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 [ApiController]
 [Route("api")]
 public class ImageUploadController : ControllerBase {
-  private readonly IConfiguration _configuration;
-  private readonly IHttpClientFactory _httpClientFactory;
+  private readonly Cloudinary _cloudinary;
+  public ImageUploadController(IConfiguration configuration) {
+    var account = new Account(
+            configuration["Cloudinary:CloudName"],
+            configuration["Cloudinary:ApiKey"],
+            configuration["Cloudinary:ApiSecret"]);
 
-  public ImageUploadController(IConfiguration configuration, IHttpClientFactory httpClientFactory) {
-    _configuration = configuration;
-    _httpClientFactory = httpClientFactory;
+    _cloudinary = new Cloudinary(account);
   }
 
   [HttpPost("upload-image")]
@@ -24,17 +28,17 @@ public class ImageUploadController : ControllerBase {
     if (image == null || image.Length == 0)
       return BadRequest("No image file provided.");
 
-    var apiClient = new ApiClient(_configuration["Imgur:ClientId"], _configuration["Imgur:ClientSecret"]);
-    var httpClient = _httpClientFactory.CreateClient();
+    using var stream = image.OpenReadStream();
+    var uploadParams = new ImageUploadParams {
+      File = new FileDescription(image.FileName, stream),
+      Transformation = new Transformation()
+      .AspectRatio("1.0")
+      .Crop("crop")
+      .Width(1000).Height(1000).Crop("limit")
+    };
 
-    var imageEndpoint = new ImageEndpoint(apiClient, httpClient);
+    var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-    using var memoryStream = new MemoryStream();
-    await image.CopyToAsync(memoryStream);
-    memoryStream.Position = 0;
-
-    var imageUpload = await imageEndpoint.UploadImageAsync(memoryStream);
-
-    return Ok(new { imageUrl = imageUpload.Link });
+    return Ok(new { imageUrl = uploadResult.SecureUrl.ToString() });
   }
 }
