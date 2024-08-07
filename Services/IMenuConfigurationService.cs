@@ -10,6 +10,7 @@ public interface IMenuConfigurationService {
 
     Task<MenuConfigurationDto> UpdateAsync(MenuConfigurationDto dto);
     Task UpdateBatchAsync(IEnumerable<MenuConfigurationDto> menuConfigurations);
+    Task UpdateAllAsync(MenuConfigurationUpdateDto updateDto);
 
     Task<bool> DeleteAsync(int id);
 }

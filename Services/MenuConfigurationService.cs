@@ -4,14 +4,28 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MomPosApi.Data;
 
 namespace MomPosApi.Services {
     public class MenuConfigurationService : IMenuConfigurationService {
+
+        protected readonly MomPosContext _context;
+        private readonly ICategoryService _categoryService;
+        private readonly IMenuItemService _menuItemService;
         private readonly IMenuConfigurationRepository _menuConfigurationRepository;
+        private readonly IMenuItemOptionService _menuItemOptionService;
+
         private readonly IMapper _mapper;
         private readonly ILogger<MenuConfigurationService> _logger;
 
-        public MenuConfigurationService(IMenuConfigurationRepository menuConfigurationRepository, IMapper mapper, ILogger<MenuConfigurationService> logger) {
+        public MenuConfigurationService(MomPosContext context,
+        ICategoryService categoryService,
+        IMenuItemService menuItemService,
+        IMenuItemOptionService menuItemOptionService, IMenuConfigurationRepository menuConfigurationRepository, IMapper mapper, ILogger<MenuConfigurationService> logger) {
+            _context = context;
+            _categoryService = categoryService;
+            _menuItemService = menuItemService;
+            _menuItemOptionService = menuItemOptionService;
             _menuConfigurationRepository = menuConfigurationRepository;
             _mapper = mapper;
             _logger = logger;
@@ -65,6 +79,30 @@ namespace MomPosApi.Services {
                 throw;
             } catch (Exception ex) {
                 _logger.LogError(ex, "An error occurred while updating the menu configuration");
+                throw;
+            }
+        }
+
+
+
+        public async Task UpdateAllAsync(MenuConfigurationUpdateDto updateDto) {
+            using var transaction = _context.Database.BeginTransaction();
+            try {
+                if (updateDto.UpdatedCategories != null && updateDto.UpdatedCategories.Any()) {
+                    await _categoryService.UpdateBatchAsync(updateDto.UpdatedCategories);
+                }
+
+                if (updateDto.UpdatedMenuItems != null && updateDto.UpdatedMenuItems.Any()) {
+                    await _menuItemService.UpdateBatchAsync(updateDto.UpdatedMenuItems);
+                }
+
+                if (updateDto.UpdatedMenuItemOptions != null && updateDto.UpdatedMenuItemOptions.Any()) {
+                    await _menuItemOptionService.UpdateBatchAsync(updateDto.UpdatedMenuItemOptions);
+                }
+
+                await transaction.CommitAsync();
+            } catch {
+                await transaction.RollbackAsync();
                 throw;
             }
         }

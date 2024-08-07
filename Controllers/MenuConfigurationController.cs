@@ -178,5 +178,19 @@ namespace MomPosApi.Controllers {
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpPut("update-all")]
+        public async Task<IActionResult> UpdateAll([FromBody] MenuConfigurationUpdateDto updateDto) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            try {
+                await _menuConfigurationService.UpdateAllAsync(updateDto);
+                return Ok(new { Message = "All changes saved successfully" });
+            } catch (Exception ex) {
+                _logger.LogError(ex, "An error occurred while updating menu configuration");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
