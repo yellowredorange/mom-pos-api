@@ -1,9 +1,12 @@
 using AutoMapper;
 using MomPosApi.Models;
 
-namespace MomPosApi.Profiles {
-    public class AutoMapperProfiles : Profile {
-        public AutoMapperProfiles() {
+namespace MomPosApi.Profiles
+{
+    public class AutoMapperProfiles : Profile
+    {
+        public AutoMapperProfiles()
+        {
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<MenuConfiguration, MenuConfigurationDto>().ReverseMap();
             CreateMap<MenuItem, MenuItemDto>().ReverseMap();
@@ -15,7 +18,8 @@ namespace MomPosApi.Profiles {
             .ForMember(dest => dest.Options, opt => opt.MapFrom(src => SplitOptions(src.Options)));
 
         }
-        private List<string> SplitOptions(string options) {
+        private List<string> SplitOptions(string options)
+        {
             return options?.Split(',').ToList() ?? [];
         }
     }

@@ -1,6 +1,8 @@
 using MomPosApi.Models;
-namespace MomPosApi.Services {
-    public interface ICategoryService {
+namespace MomPosApi.Services
+{
+    public interface ICategoryService
+    {
         Task<CategoryDto> AddAsync(CategoryDto dto);
         Task AddRangeAsync(IEnumerable<CategoryDto> dtos);
 

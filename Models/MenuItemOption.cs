@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MomPosApi.Models {
-    public class MenuItemOption {
+namespace MomPosApi.Models
+{
+    public class MenuItemOption
+    {
         [Key]
         public int MenuItemOptionId { get; set; }
         public required string Option { get; set; }

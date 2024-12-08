@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using MomPosApi.Models;
 
-namespace MomPosApi.Data {
-    public class MomPosContext : DbContext {
+namespace MomPosApi.Data
+{
+    public class MomPosContext : DbContext
+    {
         public MomPosContext(DbContextOptions<MomPosContext> options) : base(options) { }
 
         public DbSet<MenuItem> MenuItems { get; set; }
@@ -12,7 +14,8 @@ namespace MomPosApi.Data {
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Category>()
                 .HasOne(c => c.MenuConfiguration)
                 .WithMany(mc => mc.Categories)

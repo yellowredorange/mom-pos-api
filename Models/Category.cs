@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MomPosApi.Models {
-    public class Category {
+namespace MomPosApi.Models
+{
+    public class Category
+    {
         [Key]
         public int CategoryId { get; set; }
         public required string Name { get; set; }

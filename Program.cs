@@ -14,7 +14,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
-    .AddJsonOptions(options => {
+    .AddJsonOptions(options =>
+    {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
@@ -23,7 +24,8 @@ builder.Services.AddControllers()
 builder.Services.AddHttpClient();
 
 // Configure Serilog
-builder.Host.UseSerilog((context, configuration) => {
+builder.Host.UseSerilog((context, configuration) =>
+{
     configuration.MinimumLevel.Information()
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
         .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
@@ -35,15 +37,18 @@ builder.Host.UseSerilog((context, configuration) => {
 });
 
 // Configure CORS
-builder.Services.AddCors(options => {
+builder.Services.AddCors(options =>
+{
     options.AddPolicy("AllowLocalhost",
-        builder => {
+        builder =>
+        {
             builder.WithOrigins("http://localhost:5173/")
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
     options.AddPolicy("AllowAll",
-        builder => {
+        builder =>
+        {
             builder.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod();

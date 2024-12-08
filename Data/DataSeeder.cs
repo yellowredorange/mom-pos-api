@@ -3,7 +3,8 @@ using MomPosApi.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class DataSeeder {
+public class DataSeeder
+{
     private readonly IMenuConfigurationService _menuConfigurationService;
     private readonly ICategoryService _categoryService;
     private readonly IMenuItemService _menuItemService;
@@ -13,15 +14,18 @@ public class DataSeeder {
         IMenuConfigurationService menuConfigurationService,
         ICategoryService categoryService,
         IMenuItemService menuItemService,
-        IMenuItemOptionService menuItemOptionService) {
+        IMenuItemOptionService menuItemOptionService)
+    {
         _menuConfigurationService = menuConfigurationService;
         _categoryService = categoryService;
         _menuItemService = menuItemService;
         _menuItemOptionService = menuItemOptionService;
     }
 
-    public async Task SeedDataAsync() {
-        var menuConfiguration = new MenuConfigurationDto {
+    public async Task SeedDataAsync()
+    {
+        var menuConfiguration = new MenuConfigurationDto
+        {
             Name = "AoDai",
             IsActive = true,
             SortOrder = 1

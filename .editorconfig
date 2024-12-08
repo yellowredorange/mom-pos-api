@@ -1,10 +1,15 @@
-# C# files
 [*.cs]
 charset = utf-8
 root = true
 
-# Use the Allman style for braces
-csharp_new_line_before_open_brace = none
+# Use the Allman style for braces (開頭大括號換行)
+csharp_new_line_before_open_brace = all
+
+# 不在 else/catch/finally 前換行 (與 Allman 樣式一致)
 csharp_new_line_before_else = false
 csharp_new_line_before_catch = false
 csharp_new_line_before_finally = false
+
+# 可選：針對長參數列表的格式化
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true

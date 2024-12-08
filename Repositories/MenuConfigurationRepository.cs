@@ -6,11 +6,15 @@ using Microsoft.EntityFrameworkCore;
 using MomPosApi.Data;
 using MomPosApi.Models;
 
-namespace MomPosApi.Repositories {
-    public class MenuConfigurationRepository : Repository<MenuConfiguration>, IMenuConfigurationRepository {
-        public MenuConfigurationRepository(MomPosContext context, ILogger<MenuConfigurationRepository> logger) : base(context, logger) {
+namespace MomPosApi.Repositories
+{
+    public class MenuConfigurationRepository : Repository<MenuConfiguration>, IMenuConfigurationRepository
+    {
+        public MenuConfigurationRepository(MomPosContext context, ILogger<MenuConfigurationRepository> logger) : base(context, logger)
+        {
         }
-        public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync() {
+        public async Task<IEnumerable<MenuConfiguration>> GetAllMenusAsync()
+        {
             return await _context.MenuConfigurations
                 .Include(mc => mc.Categories)
                 .ThenInclude(c => c.MenuItems)

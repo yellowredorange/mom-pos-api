@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MomPosApi.Models {
-    public class MenuConfiguration {
+namespace MomPosApi.Models
+{
+    public class MenuConfiguration
+    {
         [Key]
         public int MenuConfigurationId { get; set; }
         public required string Name { get; set; }

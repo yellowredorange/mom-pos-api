@@ -1,7 +1,9 @@
 using MomPosApi.Models;
 
-namespace MomPosApi.Services {
-    public interface IMenuItemOptionService {
+namespace MomPosApi.Services
+{
+    public interface IMenuItemOptionService
+    {
         Task<MenuItemOptionDto> AddAsync(MenuItemOptionDto dto);
         Task AddRangeAsync(IEnumerable<MenuItemOptionDto> dtos);
 

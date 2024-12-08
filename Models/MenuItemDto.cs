@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MomPosApi.Models {
-    public class MenuItemDto {
+namespace MomPosApi.Models
+{
+    public class MenuItemDto
+    {
         public int MenuItemId { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }

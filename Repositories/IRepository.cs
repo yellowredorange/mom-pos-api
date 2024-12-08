@@ -1,4 +1,5 @@
-public interface IRepository<T> where T : class {
+public interface IRepository<T> where T : class
+{
     Task<T> AddAsync(T entity);
     Task AddRangeAsync(IEnumerable<T> entities);
 
