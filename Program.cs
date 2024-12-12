@@ -113,8 +113,12 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseCors("AllowAll");
 app.MapControllers();
 app.Run();
